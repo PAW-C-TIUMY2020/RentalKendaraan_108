@@ -4,56 +4,90 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Rent Kendaraan</a>
+            <a class="navbar-brand" href="#">Home</a>
+            <a class="navbar-brand" href="#">About</a>
+            <a class="navbar-brand" href="#">Contact</a>
+            <a class="navbar-brand" href="#">Daftar Rental</a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NamaCustomer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nik)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Alamat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoHp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdGenderNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NamaCustomer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nik)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alamat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoHp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdGenderNavigation.IdGender)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdCustomer">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdCustomer">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdCustomer">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="#">Customer</a>
+                    <a class="nav-item nav-link" href="#">Peminjaman</a>
+                    <a class="nav-item nav-link" href="#">Pengembalian</a>
+                    <a class="nav-item nav-link" href="#">Kendaraan</a>
+                    <a class="nav-item nav-link" href="#">Jenis Kendaraan</a>
+                    <a class="nav-item nav-link" href="#">Kondisi Kendaraan</a>
+                    <a class="nav-item nav-link" href="#">Jaminan</a>
+                    <a class="nav-item nav-link" href="#">Gender</a>
+                </div>
+            </div>
+        </div>
+        </nav>
+
+
+
+                <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+                <h2>Tambah Data Peminjaman</h2>
+
+                <p>
+                    <a asp-action="Create">Tambah Data Baru</a>
+                </p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NamaCustomer)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nik)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Alamat)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoHp)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdGenderNavigation)
+                            </th>
+
+                            <th><a asp-action="Create"><i class="fa fa-plus-square-o"> </i></a></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NamaCustomer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nik)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Alamat)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoHp)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdGenderNavigation.IdGender)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.IdCustomer"><i class='fas fa-marker'></i></a> |
+                                    <a asp-action="Details" asp-route-id="@item.IdCustomer"><i class='fas fa-'></i></a> |
+
+                                    <a asp-action="Delete" asp-route-id="@item.IdCustomer"><i class='fas fa-trash-alt' style='color:blue'></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
