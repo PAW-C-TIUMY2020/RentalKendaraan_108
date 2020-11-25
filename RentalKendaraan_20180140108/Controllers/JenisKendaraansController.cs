@@ -19,9 +19,65 @@ namespace RentalKendaraan_20180140108.Controllers
         }
 
         // GET: JenisKendaraans
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string ktsd, string searchString, string currentFilter, int? pageNumber, string sortOrder)
         {
-            return View(await _context.JenisKendaraan.ToListAsync());
+            // buat list menyimpan ketersediaan
+            var ktsdList = new List<string>();
+            //query mengambil data
+            var ktsdQuery = from d in _context.JenisKendaraan orderby d.NamaJenisKendaraan select d.NamaJenisKendaraan;
+
+            ktsdList.AddRange(ktsdQuery.Distinct());
+
+            //untuk menampilkan di view
+            ViewBag.ktsd = new SelectList(ktsdList);
+
+            //panggil db context
+            var menu = from m in _context.JenisKendaraan.Include(j => j.NamaJenisKendaraan) select m;
+
+            //untuk memilih dropdownlist 
+            if (!string.IsNullOrEmpty(ktsd))
+            {
+                menu = menu.Where(x => x.NamaJenisKendaraan == ktsd);
+            }
+
+            //untuk search data
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                menu = menu.Where(s => s.NamaJenisKendaraan.Contains(searchString));
+            }
+
+            //membuat pagedList
+            ViewData["CurrentSort"] = sortOrder;
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            //untuk sorting
+            ViewData["NameSortParn"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    menu = menu.OrderByDescending(s => s.NamaJenisKendaraan);
+                    break;
+
+                default: //name ascending
+                    menu = menu.OrderBy(s => s.NamaJenisKendaraan);
+                    break;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            //definisi jumlah data pada halaman
+            int pageSize = 5;
+
+            return View(await PaginatedList<JenisKendaraan>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: JenisKendaraans/Details/5

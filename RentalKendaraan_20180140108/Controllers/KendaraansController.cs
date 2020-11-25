@@ -19,10 +19,70 @@ namespace RentalKendaraan_20180140108.Controllers
         }
 
         // GET: Kendaraans
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string ktsd, string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
-            var rent_KendaraanContext = _context.Kendaraan.Include(k => k.IdKendaraanNavigation);
-            return View(await rent_KendaraanContext.ToListAsync());
+            // buat list menyimpan ketersediaan
+            var ktsdList = new List<string>();
+            //query mengambil data
+            var ktsdQuery = from d in _context.Kendaraan orderby d.Ketersediaan select d.Ketersediaan;
+
+            ktsdList.AddRange(ktsdQuery.Distinct());
+
+            //untuk menampilkan di view
+            ViewBag.ktsd = new SelectList(ktsdList);
+
+            //panggil db context
+            var menu = from m in _context.Kendaraan.Include(k => k.IdJenisKendaraanNavigation) select m;
+
+            //untuk memilih dropdownlist ketersediaan
+            if (!string.IsNullOrEmpty(ktsd))
+            {
+                menu = menu.Where(x => x.Ketersediaan == ktsd);
+            }
+
+            //untuk search data
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                menu = menu.Where(s => s.NoPolisi.Contains(searchString) || s.NamaKendaraan.Contains(searchString)
+                || s.NoStnk.Contains(searchString));
+            }
+
+            
+            //membuat pagedList
+            ViewData["CurrentSort"] = sortOrder;
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            //untuk sorting
+            ViewData["NameSortParn"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    menu = menu.OrderByDescending(s => s.Ketersediaan);
+                    break;
+                
+
+                default: //name ascending
+                    menu = menu.OrderBy(s => s.Ketersediaan);
+                    break;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            //definisi jumlah data pada halaman
+            int pageSize = 5;
+
+            return View(await PaginatedList<Kendaraan>.CreateAsync(menu.AsNoTracking(), pageNumber ?? 1, pageSize));
+
+
+           
         }
 
         // GET: Kendaraans/Details/5

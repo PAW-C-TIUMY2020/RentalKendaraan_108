@@ -3,98 +3,86 @@
 @{
     ViewData["Title"] = "Index";
 }
-<head>
-    
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#">Rent Kendaraan</a>
-                <a class="navbar-brand" href="#">Home</a>
-                <a class="navbar-brand" href="#">About</a>
-                <a class="navbar-brand" href="#">Contact</a>
-                <a class="navbar-brand" href="#">Daftar Rental</a>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-item nav-link active" href="">Customer</a>
-                        <a class="nav-item nav-link active" href="#">Peminjaman</a>
-                        <a class="nav-item nav-link active" href="#">Pengembalian</a>
-                        <a class="nav-item nav-link active" href="#">Kendaraan</a>
-                        <a class="nav-item nav-link active" href="#">Jenis Kendaraan</a>
-                        <a class="nav-item nav-link active" href="#">Kondisi Kendaraan</a>
-                        <a class="nav-item nav-link active" href="#">Jaminan</a>
-                        <a class="nav-item nav-link" href="#">Gender</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </body>
-
-    
 
 
 
-               <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
-                <h2>Tambah Data Peminjaman</h2>
+<h2>Tambah Data Peminjaman</h2>
 
-                <p>
-                    <a asp-action="Create">Tambah Data Baru</a>
-                </p>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.NamaCustomer)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Nik)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Alamat)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.NoHp)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.IdGenderNavigation)
-                            </th>
+<p>
+    <a asp-action="Create">Tambah Data Baru</a>
+</p>
 
-                            <th><a asp-action="Create"><i class="fa fa-plus-square-o"> </i></a></th>
+@using (Html.BeginForm("Index", "Customer", FormMethod.Get))
+{
+    <p>
+        Nama Customer: @Html.DropDownList("ktsd", "Pilih Nama Customer")
+        Cari Data : @Html.TextBox("searchString")
+        <input type="submit" value="Filter" />
+    </p>
+}
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NamaCustomer)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Nik)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Alamat)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NoHp)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IdGenderNavigation.IdGender)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.IdCustomer"><i class='fas fa-marker'></i></a> |
-                                    <a asp-action="Details" asp-route-id="@item.IdCustomer"><i class='fas fa-'></i></a> |
 
-                                    <a asp-action="Delete" asp-route-id="@item.IdCustomer"><i class='fas fa-trash-alt' style='color:blue'></i></a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+
+@using (Html.BeginForm("Index", "Customer", FormMethod.Get))
+{
+    <p>
+        Customer: @Html.DropDownList("ktsd", "Pilih Nama Customer")
+
+        <input type="submit" value="Filter" />
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NamaCustomer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nik)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alamat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoHp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdGenderNavigation)
+            </th>
+
+            <th><a asp-action="Create"><i class="fa fa-plus-square-o"> </i></a></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NamaCustomer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nik)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Alamat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoHp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdGenderNavigation.IdGender)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdCustomer"><i class='fas fa-marker'></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.IdCustomer"><i class='fas fa-'></i></a> |
+
+                    <a asp-action="Delete" asp-route-id="@item.IdCustomer"><i class='fas fa-trash-alt' style='color:blue'></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
