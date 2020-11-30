@@ -35,6 +35,9 @@ namespace RentalKendaraan_20180140108
             services.AddDbContext<Models.Rent_KendaraanContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
